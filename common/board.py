@@ -23,15 +23,40 @@ class Board():
             print(f" {'-'*self.size*6}-")
     
     
-    #def place_item():
-    #     #place item on board, return true/false if suceed
+    def update_move(self,coord,symbol):
+        #place item on board, return true/false if suceed
+        if (self.grid[coord[0]][coord[1]] == ' '):
+            self.grid[coord[0]][coord[1]] = symbol
+            return True
+        return False
+
         
-    # def is_winner():
-    #     # check if game is won
+    def is_winner(self):
+        #check if game is won
+        # 
+        for i in range(self.size):
+            # is all equal symbol this row
+            if all(x == self.grid[i][0] for x in self.grid[i]):
+                self.winner = self.grid[i][0]
+                return True
+            # is diagonal equal forward
+            # is diagonal equal reverse
+        return True
+        return False
         
-    # def is_game_over():
-    #     # cehck if board is full. game complete it is a tie.
-    # define our clear function
+    def is_game_over(self):
+        #check if board is full. game complete it is a tie.
+        total_squares = self.size ** 2
+        print(f"total squares {total_squares}")
+        blank_squares = 0
+        for x in range(self.size):
+            for y in range(self.size):
+                print(f"[{x},{y}] = {self.grid[x][y]}")
+                if self.grid[x][y] == ' ':
+                    return False
+                    break
+        return True
+
      
     def __clear(): 
         # for windows 

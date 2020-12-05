@@ -7,7 +7,17 @@ class PlayerTest(unittest.TestCase):
         
     def test_validate_new_player_coordiate_is_empty(self):
         player1 = Player()
-        self.assertEqual(player1.input_coord,[])
+        self.assertEqual(player1.input_grid_coord,[])
+    
+    @parameterized.expand([
+        ("X"),
+        ("O"),
+        ("@"),
+        ("+"),
+    ])       
+    def test_validate_new_player_symbol_is_correct(self,character):
+        player1 = Player(character)
+        self.assertEqual(player1.symbol,character)
     
     @parameterized.expand([
         ("a2",3),
@@ -30,16 +40,16 @@ class PlayerTest(unittest.TestCase):
         self.assertFalse(player1.isvalid_position(textposition,size))
         
     @parameterized.expand([
-        ("d2",[4,2]),
-        ("A1",[1,1]),
-        ("e3",[5,3]),
-        ("c7",[3,7]),
+        ("d2",[3,1]),
+        ("A1",[0,0]),
+        ("e3",[4,2]),
+        ("c7",[2,6]),
     ])
     def test_player_set_input_cord_returns_correct_value(self,textposition,coord):
         player1 = Player()
         player1.input_choice = textposition
         player1.set_input_cord()
-        self.assertEqual(player1.input_coord,coord)
+        self.assertEqual(player1.input_grid_coord,coord)
     #def test_user_choice_returns_correct_data(self):
     #     user_input = [
     #         'c3',

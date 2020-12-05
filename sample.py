@@ -1,25 +1,23 @@
 from modules.words import filter_words, display_list
-from modules.input import user_choice
+
 from common.board import Board
 from common.player import Player
 
-mylist= [0,1,2,3,4,5,6]
-display_list(mylist)
-
-lst_1=[1,2,3]
-lst_2=[4,5,6]
-lst_3=[7,8,9]
-# Make a list of lists to form a matrix
-matrix = [lst_1,lst_2,lst_3]
-first_col = [row[1] for row in matrix]
-print(first_col) # [1, 4, 7]
-
 board1 = Board(3);
-board1.print();
-player1 = Player()
-player1.input_position(board1.size)
-print(player1.input_coord)
+player1 = Player("X")
+player2 = Player("O")
+game_complete = False;
+counter = 0
+print(f"iswinner: {board1.is_winner()}")
+while not game_complete and not board1.is_winner():
+    board1.print()
+    player1.take_turn(board1) if (counter % 2) == 0 else player2.take_turn(board1)
+    if(board1.is_game_over()):
+        print("The game was a tie")
+        game_complete = True
+    counter += 1
 
+print("no loop")
 
 #print(user_choice())
 # Assign s as a string

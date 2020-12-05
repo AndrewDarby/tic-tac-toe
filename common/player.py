@@ -5,18 +5,26 @@
 represents player 
 """
 class Player():
-    def __init__(self):
+    def __init__(self,X_or_O = "X"):
         #setup player
         self.input_choice = ''
-        self.input_coord = []
+        self.input_grid_coord = []
+        self.symbol = X_or_O
         pass
         
-    #def take_turn():
+    def take_turn(self,board):
         # prompt user for input and add item to board
+        print(f"Position your {self.symbol} on board. giving letter for Col = a,b,. and digit for Row =1,2,...")
+        
+        valid_turn = False
+        while not valid_turn:
+            self.input_position(board.size)
+            self.set_input_cord()
+            valid_turn = (board.update_move(self.input_grid_coord,self.symbol))
     
     def input_position(self,boardsize):
         #request input position from player
-        print("Position on board is given by letter for Col = a,b,. and digit for Row =1,2,...")
+        
         validinput = False
         position = ""
         while not validinput:
@@ -33,7 +41,7 @@ class Player():
         return len(position) == 2 and position[1].isdigit() and (int(position[1]) <= boardsize) and ord(position[0].lower()) >=97 and ord(position[0].lower()) <=maxchar
         
     def set_input_cord(self):
-        self.input_coord = [ord(self.input_choice[0].lower())-96,  int(self.input_choice[1])]
+        self.input_grid_coord = [ord(self.input_choice[0].lower())-97,  int(self.input_choice[1])-1]
             
     #def is_game_over():
         # cehck if board is full. game complete it is a tie.
