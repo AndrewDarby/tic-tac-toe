@@ -78,3 +78,44 @@ class BoardTest(unittest.TestCase):
         board1 = Board(size);
         board1.grid = initial_grid
         self.assertFalse(board1.is_game_over())
+        
+    @parameterized.expand([
+        (3,[['X','X','O'],['O','X',' '],['X','O','X']]),
+        (3,[['X','X','X'],['O','X',' '],['O',' ','O']]),
+        (3,[['X','X',' '],['O','X',' '],['O','X','O']]),
+        (4,[['X',' ','O',' '],['O','X','O','X'],['X','O','X','X'],['X','O','O','X']]),
+    ])
+
+    def test_board_is_winner_true(self,size,initial_grid):
+        board1 = Board(size);
+        board1.grid = initial_grid
+        self.assertTrue(board1.is_winner())   
+        
+    @parameterized.expand([
+        (3,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]),
+        (3,[[' ','X','X'],['O','X',' '],['O',' ','O']]),
+        (3,[['X','X',' '],['O','O',' '],['O','X','O']]),
+        (4,[['X',' ','O',' '],['O','O','O','X'],['X','O','X','X'],['X','O','O','X']]),
+    ])
+
+    def test_board_is_winner_false(self,size,initial_grid):
+        board1 = Board(size);
+        board1.grid = initial_grid
+        self.assertFalse(board1.is_winner())      
+        
+    @parameterized.expand([
+        (3,[['X','X','O'],['O','X',' '],['X','O','X']],"diagonal forward","X"),
+        (3,[['X','X','X'],['O','X',' '],['O',' ','O']],"row 0","X"),
+        (3,[['X','X',' '],['O','X',' '],['O','X','O']],"col 1","X"),
+        (3,[['X','O','X'],['O','X',' '],['O',' ','X']],"diagonal forward","X"),
+        (3,[['X','X','O'],['O','O',' '],['O','X','O']],"diagonal reverse","O"),
+        (4,[['X',' ','O',' '],['O','X','O','X'],['X','O','X','X'],['X','O','O','X']],"diagonal forward","X"),
+        (4,[['X',' ','O',' '],['O','O','O','O'],['X','O','X','X'],['X','O','O','X']],"row 1","O"),
+    ])
+
+    def test_board_is_winner_winningline_is_corect(self,size,initial_grid,winning_line,winner):
+        board1 = Board(size);
+        board1.grid = initial_grid
+        board1.is_winner()
+        self.assertEqual(board1.winingline,winning_line) 
+        self.assertEqual(board1.winner,winner) 

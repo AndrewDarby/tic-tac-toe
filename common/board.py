@@ -11,6 +11,8 @@ class Board():
         #setup blank board of defined size
         self.grid =[[' ' for i in range(size)] for j in range(size)]
         self.size = size
+        self.winner = ''
+        self.winingline = ''
         
     def print(self):
         # output contents of board to screen
@@ -35,23 +37,33 @@ class Board():
         #check if game is won
         # 
         for i in range(self.size):
-            # is all equal symbol this row
-            if all(x == self.grid[i][0] for x in self.grid[i]):
+            # is all equal symbol for current row i
+            if all(x == self.grid[i][0] and x != ' ' for x in self.grid[i]): # all col x in this row grid[i] match
                 self.winner = self.grid[i][0]
+                self.winingline = f"row {i}"
+                return True
+            if all(self.grid[0][i] == y[i] and self.grid[0][i] != ' ' for y in self.grid): # every col i for each row y is equal
+                self.winner = self.grid[0][i]
+                self.winingline = f"col {i}"
                 return True
             # is diagonal equal forward
+            if all(self.grid[0][0] == self.grid[x][x] and self.grid[0][0] != ' ' for x in range(self.size)): 
+                self.winner = self.grid[0][0]
+                self.winingline = f"diagonal forward"
+                return True
             # is diagonal equal reverse
-        return True
+            if all(self.grid[0][-1] == self.grid[x][-1-x] and self.grid[0][-1] != ' ' for x in range(self.size)): 
+                self.winner = self.grid[0][-1]
+                self.winingline = f"diagonal reverse"
+                return True
         return False
         
     def is_game_over(self):
         #check if board is full. game complete it is a tie.
         total_squares = self.size ** 2
-        print(f"total squares {total_squares}")
         blank_squares = 0
         for x in range(self.size):
             for y in range(self.size):
-                print(f"[{x},{y}] = {self.grid[x][y]}")
                 if self.grid[x][y] == ' ':
                     return False
                     break

@@ -21,6 +21,7 @@ class Player():
             self.input_position(board.size)
             self.set_input_cord()
             valid_turn = (board.update_move(self.input_grid_coord,self.symbol))
+            if (not valid_turn): print(f"square {self.input_choice} is already taken, enter new position.")
     
     def input_position(self,boardsize):
         #request input position from player
@@ -28,7 +29,7 @@ class Player():
         validinput = False
         position = ""
         while not validinput:
-            position = input("Enter position on board; e.g. A1, B3")
+            position = input("Enter position on board; e.g. A1, B3 ")
             validinput = self.isvalid_position(position,boardsize)
             if not validinput:
                 print("First characher must be alpabetic,A,B,C, second char must be numeric digit")

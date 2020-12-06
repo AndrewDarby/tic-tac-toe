@@ -17,7 +17,8 @@ while not game_complete and not board1.is_winner():
         game_complete = True
     counter += 1
 
-print("no loop")
+if board1.winner != '':
+    print(f"The winner was Player 1") if (player1.symbol) == board1.winner else print(f"The winner was Player 1")
 
 #print(user_choice())
 # Assign s as a string
@@ -32,28 +33,3 @@ print("no loop")
 # print(popped_item) # append me!
 
 #print(list1) # [2, 3, 'append me!']
-"""
-Class Board
-    handles initialise array to store items on board
-    print()
-    place_item()
-    is_winner()
-    is_game_over()
-Class Player
-    request_input_choice(board)
-    input_postion() - enter a2, etc
-    isvalid_position() - based on size of board
-    is_empty()
-Class AIplayer - inherit from Player
-    prompt_1_or_2player()
-"""
-"""
-create_board(3)
-next_player = 1
-while not complete
-    display_board()
-    move_position = input_move(next_player)
-    update_board
-    if board_complete exit
-
-"""
