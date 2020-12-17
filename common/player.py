@@ -10,7 +10,6 @@ class Player():
         self.input_choice = ''
         self.input_grid_coord = []
         self.symbol = X_or_O
-        pass
         
     def take_turn(self,board):
         # prompt user for input and add item to board
@@ -19,7 +18,7 @@ class Player():
         valid_turn = False
         while not valid_turn:
             self.input_position(board.size)
-            self.set_input_cord()
+            self.set_input_coord()
             valid_turn = (board.update_move(self.input_grid_coord,self.symbol))
             if (not valid_turn): print(f"square {self.input_choice} is already taken, enter new position.")
     
@@ -41,8 +40,6 @@ class Player():
         maxchar = 97 + boardsize -1
         return len(position) == 2 and position[1].isdigit() and (int(position[1]) <= boardsize) and ord(position[0].lower()) >=97 and ord(position[0].lower()) <=maxchar
         
-    def set_input_cord(self):
+    def set_input_coord(self):
         self.input_grid_coord = [ord(self.input_choice[0].lower())-97,  int(self.input_choice[1])-1]
             
-    #def is_game_over():
-        # cehck if board is full. game complete it is a tie.

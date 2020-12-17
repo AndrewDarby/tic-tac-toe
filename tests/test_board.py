@@ -104,18 +104,34 @@ class BoardTest(unittest.TestCase):
         self.assertFalse(board1.is_winner())      
         
     @parameterized.expand([
-        (3,[['X','X','O'],['O','X',' '],['X','O','X']],"diagonal forward","X"),
-        (3,[['X','X','X'],['O','X',' '],['O',' ','O']],"row 0","X"),
-        (3,[['X','X',' '],['O','X',' '],['O','X','O']],"col 1","X"),
-        (3,[['X','O','X'],['O','X',' '],['O',' ','X']],"diagonal forward","X"),
-        (3,[['X','X','O'],['O','O',' '],['O','X','O']],"diagonal reverse","O"),
-        (4,[['X',' ','O',' '],['O','X','O','X'],['X','O','X','X'],['X','O','O','X']],"diagonal forward","X"),
-        (4,[['X',' ','O',' '],['O','O','O','O'],['X','O','X','X'],['X','O','O','X']],"row 1","O"),
+        (3,[['X','X','O'],['O','X',' '],['X','O','X']],"X"),
+        (3,[['X','X','X'],['O','X',' '],['O',' ','O']],"X"),
+        (3,[['X','X',' '],['O','X',' '],['O','X','O']],"X"),
+        (3,[['X','O','X'],['O','X',' '],['O',' ','X']],"X"),
+        (3,[['X','X','O'],['O','O',' '],['O','X','O']],"O"),
+        (4,[['X',' ','O',' '],['O','X','O','X'],['X','O','X','X'],['X','O','O','X']],"X"),
+        (4,[['X',' ','O',' '],['O','O','O','O'],['X','O','X','X'],['X','O','O','X']],"O"),
     ])
 
-    def test_board_is_winner_winningline_is_corect(self,size,initial_grid,winning_line,winner):
+    def test_board_is_winner_winningline_is_corect(self,size,initial_grid,winner):
         board1 = Board(size);
         board1.grid = initial_grid
         board1.is_winner()
-        self.assertEqual(board1.winingline,winning_line) 
         self.assertEqual(board1.winner,winner) 
+        
+    @parameterized.expand([
+        (3,[['X','X','O'],['O','X',' '],['X',' ',' ']],"X",3),
+        (3,[['X','X','X'],['O','X',' '],['O',' ','O']],"O",1),
+        (3,[['X','X',' '],['O','O',' '],[' ','X',' ']],"X",2),
+        (3,[['O',' ',' '],['X','X',' '],[' ',' ',' ']],"X",3),
+        (3,[['O',' ',' '],[' ','X',' '],['X',' ',' ']],"X",4),
+        (3,[['O',' ',' '],[' ','X',' '],[' ','X',' ']],"X",4),
+        (3,[['O',' ',' '],[' ','X',' '],[' ',' ','X']],"X",5),
+        (4,[['O',' ','O',' '],[' ','X',' ',' '],[' ','X',' ',' '],['X',' ',' ',' ']],"X",5),
+    ])
+    def test_board_possible_win_returns_correct_number(self, size, initial_grid, symbol, expected):
+        board1 = Board(size);
+        board1.grid = initial_grid
+        countpossiblewins = board1.count_possible_winning_lines(symbol)
+        self.assertEqual(countpossiblewins,expected)    
+        

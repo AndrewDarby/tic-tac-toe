@@ -12,7 +12,6 @@ class Board():
         self.grid =[[' ' for i in range(size)] for j in range(size)]
         self.size = size
         self.winner = ''
-        self.winingline = ''
         
     def print(self):
         # output contents of board to screen
@@ -32,32 +31,117 @@ class Board():
             return True
         return False
 
-        
-    def is_winner(self):
-        #check if game is won
-        # 
-        for i in range(self.size):
-            # is all equal symbol for current row i
-            if all(x == self.grid[i][0] and x != ' ' for x in self.grid[i]): # all col x in this row grid[i] match
-                self.winner = self.grid[i][0]
-                self.winingline = f"row {i}"
-                return True
-            if all(self.grid[0][i] == y[i] and self.grid[0][i] != ' ' for y in self.grid): # every col i for each row y is equal
-                self.winner = self.grid[0][i]
-                self.winingline = f"col {i}"
-                return True
-            # is diagonal equal forward
-            if all(self.grid[0][0] == self.grid[x][x] and self.grid[0][0] != ' ' for x in range(self.size)): 
-                self.winner = self.grid[0][0]
-                self.winingline = f"diagonal forward"
-                return True
-            # is diagonal equal reverse
-            if all(self.grid[0][-1] == self.grid[x][-1-x] and self.grid[0][-1] != ' ' for x in range(self.size)): 
-                self.winner = self.grid[0][-1]
-                self.winingline = f"diagonal reverse"
-                return True
+    def undo_move(self,coord,symbol):
+        #place item on board, return true/false if suceed
+        if (self.grid[coord[0]][coord[1]] == symbol):
+            self.grid[coord[0]][coord[1]] = ' '
+            return True
         return False
         
+    def is_winner(self,record_winner):
+        #check if game is won
+        iswinner = False
+        for i in range(self.size):
+            # is all equal symbol for current row i
+            if self.__is_winning_row(i):
+                iswinner = True
+                break
+            if self.__is_winning_col(i):
+                iswinner = True
+                break
+        # is forward diagonal equal or is reverse diagonal equal
+        if self.__is_winning_diagonal_forward() or self.__is_winning_diagonal_reverse(): 
+            iswinner = True
+        if not record_winner:
+            self.winner = '' #reset winner to be blank
+        return iswinner
+ 
+    def count_possible_winning_lines(self,mysymbol):
+        possible_wins = 0
+        for i in range(self.size):
+            possible_wins += self.__possible_row(i,mysymbol)
+            possible_wins += self.__possible_col(i,mysymbol)
+        possible_wins += self.__possible_diagnonal_forward(mysymbol)
+        possible_wins += self.__possible_diagnonal_reverse(mysymbol)
+        return possible_wins
+        
+    def __possible_row(self,row_number,symbol):
+        """
+        check row has symbol or non empty
+        """
+        if all(x == symbol or x == ' ' for x in self.grid[row_number]): # all square in row grid[i] match symbol or blank
+            if sum(x == symbol for x in self.grid[row_number]) > 0:
+                return 1 
+        return 0
+  
+    def __possible_col(self,col_number,symbol):
+        """
+        check col has symbol or non empty
+        """
+        if all(y[col_number] == symbol or y[col_number] == ' ' for y in self.grid): # all square in col grid match symbol or blank
+            if sum(y[col_number] == symbol for y in self.grid) > 0:
+                return 1 
+        return 0
+    
+    def __possible_diagnonal_forward(self,symbol):
+        """
+        check diagonal forward has symbol or non empty
+        """
+        if all(self.grid[x][x] == ' ' or self.grid[x][x] == symbol for x in range(self.size)):  # all square in col grid match symbol or blank
+            if sum(self.grid[x][x] == symbol for x in range(self.size)) > 0:
+                return 1 
+        return 0   
+    
+    def __possible_diagnonal_reverse(self,symbol):
+        """
+        check diagonal reverse has symbol or non empty
+        """
+        if all(self.grid[x][-1-x] == ' ' or self.grid[x][-1-x] == symbol for x in range(self.size)):  # all square in col grid match symbol or blank
+            if sum(self.grid[x][-1-x] == symbol for x in range(self.size)) > 0:
+                return 1 
+        return 0                  
+    
+    def __is_winning_diagonal_forward(self):
+        """
+        check forward diagonal matches
+        """
+        if all(self.grid[0][0] == self.grid[x][x] and self.grid[0][0] != ' ' for x in range(self.size)): 
+            self.winner = self.grid[0][0]
+            return True 
+        else:
+            return False
+ 
+    def __is_winning_diagonal_reverse(self):
+        """
+        check reverse diagonal matches
+        """
+        if all(self.grid[0][-1] == self.grid[x][-1-x] and self.grid[0][-1] != ' ' for x in range(self.size)): 
+            self.winner = self.grid[0][-1]
+            return True 
+        else:
+            return False
+                      
+    def __is_winning_row(self, row_number):
+        """
+        check all cols this row match and non empty
+        """
+        if all(x == self.grid[row_number][0] and x != ' ' for x in self.grid[row_number]): # all col x in this row grid[i] match
+            self.winner = self.grid[row_number][0]
+            return True 
+        else:
+            return False
+        
+        
+    def __is_winning_col(self, col_number):
+        """
+        check all rows this col match and non empty
+        """
+        if all(self.grid[0][col_number] == y[col_number] and self.grid[0][col_number] != ' ' for y in self.grid): # every col i for each row y is equal
+            self.winner = self.grid[0][col_number]
+            return True 
+        else:
+            return False
+              
     def is_game_over(self):
         #check if board is full. game complete it is a tie.
         total_squares = self.size ** 2
