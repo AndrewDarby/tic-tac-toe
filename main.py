@@ -12,7 +12,7 @@ def game_setup():
     validinput = False
     print("Enter Number to select from following Options")
     print("1 - Two Player game")
-    print("2 - One Player versus conservative AI")
+    print("2 - One Player versus defensive AI")
     print("3 - One Player versus agressive AI")
     while not validinput:
         gameoption = input("Enter size of board between 3 and 10 ")
@@ -22,37 +22,30 @@ def game_setup():
         print("Sorry - You must enter a numeric value!")
     return int(gameoption)
 
-for x in range(1,300):
-    board1 = Board(10);
-    """
-    gameoption = game_setup()
-    if gameoption == 1:
-        player1 = Player("X")
-        player2 = Player("O")
-    elif gameoption == 2:
-        player1 = Player("X")
-        player2 = AIPlayer("O",2,-10)
-    else:
-        player1 = Player("X")
-        player2 = AIPlayer("O",4,-2)    
-    """
-    player1 = AIPlayer("X",2,-10)
-    player2 = AIPlayer("O",4,6)
-    game_complete = False;
-    counter = 0
-    #board1.print()
-    while not game_complete and not board1.is_winner(RECORD_THE_WINNER):
-        player1.take_turn(board1) if (counter % 2) == 0 else player2.take_turn(board1)
-        if(board1.is_game_over()):
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
-            print(f"The game was a tie. {current_time}")
-            game_complete = True
-        counter += 1
-        #board1.print()
+board1 = Board();
+gameoption = game_setup()
+if gameoption == 1:
+    player1 = Player("X")
+    player2 = Player("O")
+elif gameoption == 2:
+    player1 = Player("X")
+    player2 = AIPlayer("O",2,-10)
+else:
+    player1 = Player("X")
+    player2 = AIPlayer("O",4,-2)    
+game_complete = False;
+counter = 0
+board1.print()
+while not game_complete and not board1.is_winner(RECORD_THE_WINNER):
+    player1.take_turn(board1) if (counter % 2) == 0 else player2.take_turn(board1)
+    if(board1.is_game_over()):
+        print("The game was a tie.")
+        game_complete = True
+    counter += 1
+    board1.print()
 
-    if board1.winner != '':
-        print(f"The winner was Player 1") if (player1.symbol) == board1.winner else print(f"The winner was Player 1")
+if board1.winner != '':
+    print(f"The winner was Player 1") if (player1.symbol) == board1.winner else print(f"The winner was Player 1")
     
 
 

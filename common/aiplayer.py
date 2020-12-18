@@ -23,8 +23,7 @@ class AIPlayer(Player):
         selected_move = order_of_moves[random.randint(0,len(selected_moves)-1)][0]
         valid_turn = (board.update_move(selected_move,self.symbol))
         if (valid_turn): 
-            pass
-            #print(f"AI played the move {selected_move}")
+            print(f"AI played the move {selected_move}")
         else:
             print(f"Warning {selected_move} by AI is not valid.")    
         
