@@ -48,7 +48,7 @@ class PlayerTest(unittest.TestCase):
     def test_player_set_input_cord_returns_correct_value(self,textposition,coord):
         player1 = Player()
         player1.input_choice = textposition
-        player1.set_input_cord()
+        player1.set_input_coord()
         self.assertEqual(player1.input_grid_coord,coord)
     #def test_user_choice_returns_correct_data(self):
     #     user_input = [

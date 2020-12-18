@@ -11,7 +11,7 @@ class AIPlayerTest(unittest.TestCase):
         ("+"),
     ])       
     def test_validate_new_aiplayer_symbol_is_correct(self,character):
-        aiplayer1 = AIPlayer(character)
+        aiplayer1 = AIPlayer(character,2,-10)
         self.assertEqual(aiplayer1.symbol,character)
         
     @parameterized.expand([
@@ -21,7 +21,7 @@ class AIPlayerTest(unittest.TestCase):
         [[[0,0],0],[[0,2],0],[[1,0],0],[[2,0],0],[[2,1],0],[[2,2],0]]),
     ])
     def test_create_array_next_steps_returns_correct_moves(self,size,moves, expected):
-        aiplayer1 = AIPlayer()
+        aiplayer1 = AIPlayer('X',2,-10)
         board1 = Board(size);
         for move in moves:
             board1.update_move(move[0],move[1])
@@ -40,10 +40,10 @@ class AIPlayerTest(unittest.TestCase):
         """
         docstring
         """
-        aiplayer1 = AIPlayer(character)
+        aiplayer1 = AIPlayer(character,2,-10)
         board1 = Board(size);
         board1.grid = initial_grid
-        sortedsteps = aiplayer1.evaluate_possible_winning_paths(board1,nextsteps)
+        sortedsteps = aiplayer1.order_possible_possible_moves_by_score(board1,nextsteps)
         self.assertEqual(sortedsteps,expected_list)
     
     @parameterized.expand([
@@ -74,9 +74,9 @@ class AIPlayerTest(unittest.TestCase):
         """
         docstring
         """
-        aiplayer1 = AIPlayer(character)
+        aiplayer1 = AIPlayer(character,2,-10)
         board1 = Board(size);
         board1.grid = initial_grid
-        sortedsteps = aiplayer1.evaluate_possible_winning_paths(board1,nextsteps)
+        sortedsteps = aiplayer1.order_possible_possible_moves_by_score(board1,nextsteps)
         print(sortedsteps)
         self.assertEqual(sortedsteps,expected_list)

@@ -2,6 +2,8 @@ import unittest
 from parameterized import parameterized
 from common.board import Board
 
+RECORD_THE_WINNER = True
+
 class BoardTest(unittest.TestCase):
     
     @parameterized.expand([
@@ -89,7 +91,7 @@ class BoardTest(unittest.TestCase):
     def test_board_is_winner_true(self,size,initial_grid):
         board1 = Board(size);
         board1.grid = initial_grid
-        self.assertTrue(board1.is_winner())   
+        self.assertTrue(board1.is_winner(RECORD_THE_WINNER))   
         
     @parameterized.expand([
         (3,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]),
@@ -101,7 +103,7 @@ class BoardTest(unittest.TestCase):
     def test_board_is_winner_false(self,size,initial_grid):
         board1 = Board(size);
         board1.grid = initial_grid
-        self.assertFalse(board1.is_winner())      
+        self.assertFalse(board1.is_winner(RECORD_THE_WINNER))      
         
     @parameterized.expand([
         (3,[['X','X','O'],['O','X',' '],['X','O','X']],"X"),
@@ -116,7 +118,7 @@ class BoardTest(unittest.TestCase):
     def test_board_is_winner_winningline_is_corect(self,size,initial_grid,winner):
         board1 = Board(size);
         board1.grid = initial_grid
-        board1.is_winner()
+        board1.is_winner(RECORD_THE_WINNER)
         self.assertEqual(board1.winner,winner) 
         
     @parameterized.expand([

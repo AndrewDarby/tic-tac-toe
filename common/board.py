@@ -7,11 +7,26 @@ represents playing board and records position of tiles on board
 from os import system, name
 
 class Board():
-    def __init__(self,size=3):
+    def __init__(self,size=0):
         #setup blank board of defined size
-        self.grid =[[' ' for i in range(size)] for j in range(size)]
-        self.size = size
+        if size == 0:
+            self.input_size()
+        else:
+            self.size = size
+        self.grid =[[' ' for i in range(self.size)] for j in range(self.size)]
         self.winner = ''
+        
+    def input_size(self):
+        #ask for board size
+        validinput = False
+        while not validinput:
+            boardsize = input("Enter size of board between 3 and 10 ")
+            if boardsize.isdigit():
+                if int(boardsize)>2 and int(boardsize)<11:
+                    validinput = True
+            print("You must enter a numeric value!")
+
+        self.size = int(boardsize)
         
     def print(self):
         # output contents of board to screen
